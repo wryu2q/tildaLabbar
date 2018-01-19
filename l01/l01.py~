@@ -1,0 +1,79 @@
+class Pokemon:
+    """ Handles Pokémons """
+
+    def __init__(self, name, hp, type1, ability1, mass):
+        self.name = name
+        self.hp = hp
+        self.type1 = type1
+        self.ability1 = ability1
+        self.massStr = mass
+        self.massNum = float(mass.split(' ')[0])
+
+    def __str__(self):
+        return self.name
+
+    def __lt__(self, other):
+        try:
+            return self.massNum < other.massNum
+        except AttributeError:
+            return self.massNum < other
+
+
+class Gym:
+    """ Manages the pokédexes """
+
+    def __init__(self, pokedex):
+        self.pokedex = pokedex
+
+    def __str__(self):
+
+        nameString = ""
+        for pkmn in self.pokedex:
+            nameString += str(pkmn)
+            nameString += " "
+        return nameString
+
+    def isMember(self, query):
+        memberList = []
+        for member in query:
+            length = len(memberList)
+            for entry in self.pokedex:
+                if member.lower() == entry.name.lower():
+                    memberList.append(entry.name + " is in the Pokédex")
+            if length == len(memberList):
+                memberList.append(member + " is not in the Pokédex")
+        else:
+            return memberList
+
+
+def test():
+    """Test function"""
+
+    poke = Pokemon("Bulbasaur", 10, "Fire", "Burn", "10.3 kG")
+    poke2 = Pokemon("Pikachu", 10, "Lightning", "Thunder", "4.5 kG")
+    if poke < poke2:
+        print(poke, "mindre än", poke2)
+
+
+def loadPokemons(fileName="pokedex.csv"):
+    """ Loads pokémons from a csv file and creates a list of Pokémon objects"""
+
+    pokeList = []
+    with open(fileName, encoding="utf-8") as pokedex:
+        next(pokedex)  # Skips the indexing line
+        for line in pokedex:
+            lineList = line.split(",")
+            pokeList.append(Pokemon(lineList[2], lineList[3], lineList[10], lineList[13], lineList[16]))
+    return pokeList
+
+
+KTHgym = Gym(loadPokemons())
+while True:
+    pokemon = input("What Pokémon are You looking for? (For multiple searches, use space to separate the " +
+                    "names): ")
+    if not pokemon:
+        next()
+    else:
+        for each in KTHgym.isMember(pokemon.split(" ")):
+            print(each)
+        break
