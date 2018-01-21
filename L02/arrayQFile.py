@@ -20,4 +20,5 @@ def test():
     else:
         print("Något är fel. 1 och 2 förväntades men vi fick", x, y)
 
-test()
+if __name__ == "__main__":
+    test()
