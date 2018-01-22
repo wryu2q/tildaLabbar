@@ -4,34 +4,23 @@ from linkedQFile import LinkedQ
 
 def magic_trick(q, num_list):
     ''' Uses the queue specified in q to perform a magic trick on the numbers listed in num_list'''
-    switch = False
     for item in num_list:
-        try:
-            if switch:
-                q.enqueue(int(item))
-            else:
-                num_list.append(int(item))
-            switch = not switch
-        except ValueError:
-            pass
+        q.enqueue(int(item))
+    while not q.isEmpty():
+        q.enqueue(q.dequeue())
+        print(q.dequeue(), " ", end='')
 
-    print_string = "De kommer ut i följande ordning: "
-    while True:
-        if q.isEmpty():
-            break
-        else:
-            print_string += str(q.dequeue()) + " "
-    return print_string
+    print("")
 
 
 def amagic_trick():
     ''' Takes input from the user for running the magick_trick function with the ArrayQ queue implementation'''
-    print(magic_trick(ArrayQ(), input("Skriv in heltal, separerade av mellanslag ").split(" ")))
+    magic_trick(ArrayQ(), input("Skriv in heltal, separerade av mellanslag ").split(" "))
 
 
 def lmagic_trick():
     ''' Takes input from the user for running the magick_trick function with the LinkedQ queue implementation'''
-    print(magic_trick(LinkedQ(), input("Skriv in heltal, separerade av mellanslag ").split(" ")))
+    magic_trick(LinkedQ(), input("Skriv in heltal, separerade av mellanslag ").split(" "))
 
 
 def menu():

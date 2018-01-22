@@ -8,13 +8,13 @@ class ArrayQ:
 
     def enqueue(self, number):
         ''' Adds to the end of the queue, which is the first place in the array'''
-        self.__queue.insert(0, number)
+        self.__queue.append(int(number))
 
     def dequeue(self):
         ''' Returns  and removes from queue the first item of the queue, which is the last item of the array'''
         if self.isEmpty() :
-            return None
-        return self.__queue.pop()
+            return
+        return self.__queue.pop(0)
 
     def isEmpty(self):
         ''' Returns True if the queue is empty '''
