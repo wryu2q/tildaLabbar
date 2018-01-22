@@ -12,8 +12,16 @@ class ArrayQ:
 
     def dequeue(self):
         ''' Returns  and removes from queue the first item of the queue, which is the last item of the array'''
+        if self.isEmpty() :
+            return None
         return self.__queue.pop()
 
+    def isEmpty(self):
+        ''' Returns True if the queue is empty '''
+        if self.__queue.buffer_info()[1] == 0 :
+            return True
+        else :
+            return False
 
 def test():
     q = ArrayQ()

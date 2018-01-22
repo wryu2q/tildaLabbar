@@ -17,10 +17,10 @@ def magic_trick(q, num_list):
 
     print_string = "De kommer ut i följande ordning: "
     while True:
-        try:
-            print_string += str(q.dequeue()) + " "
-        except IndexError:
+        if q.isEmpty():
             break
+        else:
+            print_string += str(q.dequeue()) + " "
     return print_string
 
 
