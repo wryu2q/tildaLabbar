@@ -1,0 +1,72 @@
+class Node :
+    def __init__(self,value=None) :
+        self.right = None
+        self.left= None
+        self.val = value
+
+    def __lt__ (self,other) :
+        return self.val < other
+
+    def __eq__ (self,other) :
+        return self.val == other
+
+    def __str__ (self) :
+        return self.val
+
+
+class Bintree:
+    def __init__(self):
+        self.root = None
+
+    def put(self,newvalue):
+        # Sorterar in newvalue i trädet
+        self.root = putta(self.root,newvalue)
+
+    def __contains__(self,value):
+        # True om value finns i trädet, False annars
+        return finns(self.root,value)
+
+    def write(self):
+        # Skriver ut trädet i inorder
+        skriv(self.root)
+        print("\n")
+
+
+def putta (root,value) :
+    '''puts none existing value in binary tree'''
+    if root is None :
+        root=Node(value)
+        return
+    
+    elif root == value :
+        return
+        
+    elif root < value :
+        putta(root.right,value)
+
+    else :
+        putta(root.left,value)
+
+def finns (root,value) :
+    '''returns true if value exist in binary tree'''
+    if root is None :
+        return False
+    
+    elif root == value :
+        return True
+    
+    elif root < value :
+        return finns(root.right,value)
+
+    else :
+        return finns(root.left,value)
+
+def skriv(root) :
+    '''prints whats to the left in binary tree'''
+    if root is None :
+        return 
+    
+    skriv(root.left):
+    print(root)
+    skriv(root.right)
+    
