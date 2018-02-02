@@ -74,4 +74,5 @@ def skriv(root) :
     skriv(root.left)
     print(root)
     skriv(root.right)
-    
+
+
