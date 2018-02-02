@@ -1,0 +1,48 @@
+from bfs import *
+from linkedQFile import *
+
+def load_svenska():
+    svenska = Bintree()
+    with open("word3.txt", "r", encoding = "utf-8") as svenskfil:
+        for rad in svenskfil:
+            ordet = rad.strip()                # Ett trebokstavsord per rad
+            if ordet in svenska:
+                continue 
+            else:
+                svenska.put(ordet)             # in i sökträdet
+    return svenska
+class Breadth_search:
+    def __init__(self, startord, slutord):
+        self.startord = startord
+        self.slutord = slutord
+        self.q = LinkedQ()
+        self.gamla = Bintree()
+        self.svenska = load_svenska()
+        
+    def makechildren(self, q):
+        i = 0
+        for c in self.startord:        
+            for l in "abcdefghijklmnopqrstuvwxyzåäö":
+                ordet = list(self.startord)
+                ordet[i] = l
+                ordet = "".join(ordet)
+                if ordet in svenska and ordet not in gamla:
+                    gamla.put(ordet)
+                    q.enqueue(ordet)
+            i += 1
+
+    
+    
+
+
+
+makechildren("söt", q)
+slutord = "yxa"
+while not q.isEmpty():
+    nod = q.dequeue()
+    makechildren(nod, q)
+    if nod == slutord:
+        print("Det finns en väg till", slutord)
+        break
+if nod != slutord:
+    print("Det finns ingen väg till", slutord)
