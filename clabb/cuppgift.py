@@ -59,8 +59,7 @@ def generateList(N, partition=1):
 
 
 if __name__ == '__main__':
-    skrivtab = False
-    print(generateList(5))
+    skrivtab = True
     tests = 10
     minN = 5
     maxN = 10
@@ -71,7 +70,7 @@ if __name__ == '__main__':
         matlabEmptyCell = '0'
         csvtab = open("tab.csv", 'w')
         mtabmean = open("tabmean.m", 'w')
-        mtabls = open("tabls", 'w')
+        mtabls = open("tabls.m", 'w')
 
         csvtab.write('N\k')
         mtabmean.write('['+matlabEmptyCell)
