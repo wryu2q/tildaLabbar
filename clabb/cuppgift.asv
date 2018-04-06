@@ -1,0 +1,41 @@
+clear all
+close all
+tabmean
+tabls
+
+mediant=meant;
+maxt=meant;
+mint=meant;
+
+for ni = 2:size(meant,1)
+    for ki = 2:size(meant,2)
+        mediant(ni,ki)=median(ls(ni,ki,:));
+        maxt(ni,ki)=max(ls(ni,ki,:));
+        
+    end
+end
+
+hold on
+data =meant(2:end,2:end);
+%data=mediant(2:end,2:end);
+[k,N]=meshgrid(meant(1,2:end),meant(2:end,1));
+surf(k,N,data)
+
+data2=data(:);%data som kolumnvektor
+N2=N(:);k2=k(:);
+N2(isnan(data2))=[];
+k2(isnan(data2))=[];
+data2(isnan(data2))=[];
+A=[N2,-((k2-N2/2).^2)./N2]\data2;
+a=A(1);b=A(2);
+%a=4;
+%b=2*pi;
+T=N*a-b*((k-N/2).^2)./N;
+T=T.*(0*meant(2:end,2:end)+1);
+surf(k,N,T,'EdgeColor','r','FaceAlpha',0.7)
+xlabel('k')
+ylabel('N')
+zlabel('jämförelser')
+legend('uppmätt medelvärde','uppskattad komplexitet')
+view(3)
+grid on

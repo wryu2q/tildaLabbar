@@ -60,37 +60,39 @@ def generateList(N, partition=1):
 
 if __name__ == '__main__':
     skrivtab = True
-    tests = 10
-    minN = 5
-    maxN = 10
+    tests = 1000
+    minN = 10
+    maxN = 50
     mink = 1
-    NStepLen = 1
+    NStepLen = 5
     kStepLen = 1
     if skrivtab is True:
-        matlabEmptyCell = '0'
+        matlabEmptyCell = 'NaN'
         csvtab = open("tab.csv", 'w')
-        mtabmean = open("tabmean.m", 'w')
-        mtabls = open("tabls.m", 'w')
+        mtabmean = open("tabmean.m", 'w', encoding="utf-8")
+        mtabls = open("tabls.m", 'w', encoding="utf-8")
 
         csvtab.write('N\k')
-        mtabmean.write('['+matlabEmptyCell)
-        mtabls.write('['+matlabEmptyCell)
+        mtabmean.write('meant=['+matlabEmptyCell)
+        mtabls.write("ls=nan("+str((maxN-minN)/NStepLen+2)+","+str(maxN/kStepLen)+","+str(tests) +");\n")
+        kindex=0
         for k in range(mink, maxN, kStepLen):
             csvtab.write(','+str(k))
             mtabmean.write(','+str(k))
-            mtabls.write(','+str(k))
+            mtabls.write('ls(1,'+str(kindex+2)+',:)='+str(k)+';\n')
+            kindex+=1
+        Nindex=0
         for N in range(minN, maxN+1, NStepLen):
             print(N)
             csvtab.write('\n'+str(int(N)))
             mtabmean.write(';\n'+str(int(N)))
-            mtabls.write(';\n'+str(int(N)))
-            for i in range(mink, maxN, kStepLen):
+            mtabls.write('\n\nls('+str(Nindex+2)+',1,:)='+str(N)+';\n')
+            kindex=0
+            for k in range(mink, maxN, kStepLen):
                 # for i in range(0, maxN, N//NStepLen):
                 csvtab.write(',')
                 mtabmean.write(',')
-                mtabls.write(',')
-                if i < N:
-                    k = i
+                if k < N:
                     statistik = Statistik()
                     data = generateList(N, 0)
                     best = findKthBest(k, data, 0, N-1, statistik)
@@ -100,12 +102,12 @@ if __name__ == '__main__':
                         best = findKthBest(k, data, 0, N-1, statistik)
                     csvtab.write(str(statistik.mean()))
                     mtabmean.write(str(statistik.mean()))
-                    mtabls.write(str(statistik.comparisonsList))
+                    mtabls.write('ls('+str(Nindex+2)+','+str(kindex+2)+',:)='+str(statistik.comparisonsList)+';\n')
                 else:
                     mtabmean.write(matlabEmptyCell)
-                    mtabls.write(matlabEmptyCell)
+                kindex+=1
+            Nindex+=1
         csvtab.close()
-        mtabmean.write(']')
+        mtabmean.write('];')
         mtabmean.close()
-        mtabls.write(']')
         mtabls.close()
